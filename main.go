@@ -42,13 +42,25 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	in := m.(*image.RGBA)
 
-	out := &image.RGBA{Pix: make([]uint8, len(in.Pix)), Stride: in.Stride, Rect: in.Rect}
-	max := in.Rect.Max
+	var (
+		stride, pix int
+	)
+
+	switch in := m.(type) {
+	case *image.RGBA:
+		stride = in.Stride
+		pix = len(in.Pix)
+	case *image.NRGBA:
+		stride = in.Stride
+		pix = len(in.Pix)
+	}
+	out := &image.RGBA{Pix: make([]uint8, pix), Stride: stride, Rect: m.Bounds()}
+
+	max := m.Bounds().Max
 	for x := 0; x < max.X; x++ {
 		for y := 0; y < max.Y; y++ {
-			v := in.At(x, y)
+			v := m.At(x, y)
 			if isBackground(v) {
 				out.Set(x, y, bg)
 				continue
@@ -67,9 +79,10 @@ func main() {
 	png.Encode(w, out)
 }
 
+const n = 256 // scaling factor that I don't understand
 func isBackground(c color.Color) bool {
-	rgb := c.(color.RGBA)
-	return rgb.R > 127 && rgb.G > 127 && rgb.B > 127
+	r, g, b, _ := c.RGBA()
+	return r > 127*n && g > 127*n && b*n > 127
 }
 
 func toColor(s string) color.Color {
