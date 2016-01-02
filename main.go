@@ -90,7 +90,7 @@ func main() {
 const n = 256 // scaling factor that I don't understand
 func isBackground(c color.Color) bool {
 	r, g, b, _ := c.RGBA()
-	return r > 127*n && g > 127*n && b*n > 127
+	return r > 127*n && g > 127*n && b > 127*n
 }
 
 func isTransparent(c color.Color) bool {
