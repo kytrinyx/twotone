@@ -21,7 +21,7 @@ import (
 
 var (
 	dropTransparency = flag.Bool("drop-transparency", false, "Replace transparent background with background color.")
-	bgColor          = flag.String("bg", "ffffff", "Background color.")
+	bgColor          = flag.String("bg", "", "Background color. Default is transparent.")
 	fgColor          = flag.String("fg", "000000", "Foreground color.")
 	inFile           = flag.String("in", "", "Name of the file to use as input.")
 	outFile          = flag.String("out", "out.png", "Name of the file to use as output.")
@@ -30,7 +30,11 @@ var (
 func main() {
 	flag.Parse()
 
-	bg := toColor(*bgColor)
+	bg := color.Color(color.RGBA{0, 0, 0, 0}) // default background
+	if *bgColor != "" {
+		bg = toColor(*bgColor)
+	}
+
 	fg := toColor(*fgColor)
 
 	r, err := os.Open(*inFile)
