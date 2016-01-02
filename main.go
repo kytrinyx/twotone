@@ -20,10 +20,11 @@ import (
 )
 
 var (
-	bgColor = flag.String("bg", "ffffff", "Background color.")
-	fgColor = flag.String("fg", "000000", "Foreground color.")
-	inFile  = flag.String("in", "", "Name of the file to use as input.")
-	outFile = flag.String("out", "out.png", "Name of the file to use as output.")
+	dropTransparency = flag.Bool("drop-transparency", false, "Replace transparent background with background color.")
+	bgColor          = flag.String("bg", "ffffff", "Background color.")
+	fgColor          = flag.String("fg", "000000", "Foreground color.")
+	inFile           = flag.String("in", "", "Name of the file to use as input.")
+	outFile          = flag.String("out", "out.png", "Name of the file to use as output.")
 )
 
 func main() {
@@ -61,7 +62,10 @@ func main() {
 	for x := 0; x < max.X; x++ {
 		for y := 0; y < max.Y; y++ {
 			v := m.At(x, y)
-			if isBackground(v) {
+			if !*dropTransparency && isTransparent(v) {
+				continue
+			}
+			if isTransparent(v) || isBackground(v) {
 				out.Set(x, y, bg)
 				continue
 			}
@@ -83,6 +87,11 @@ const n = 256 // scaling factor that I don't understand
 func isBackground(c color.Color) bool {
 	r, g, b, _ := c.RGBA()
 	return r > 127*n && g > 127*n && b*n > 127
+}
+
+func isTransparent(c color.Color) bool {
+	r, g, b, a := c.RGBA()
+	return r == 0 && g == 0 && b == 0 && a == 0
 }
 
 func toColor(s string) color.Color {
