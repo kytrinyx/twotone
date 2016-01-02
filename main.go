@@ -21,6 +21,7 @@ import (
 
 var (
 	dropTransparency = flag.Bool("drop-transparency", false, "Replace transparent background with background color.")
+	threshold        = flag.Int("threshold", 127, "Default background threshold.")
 	bgColor          = flag.String("bg", "", "Background color. Default is transparent.")
 	fgColor          = flag.String("fg", "000000", "Foreground color.")
 	inFile           = flag.String("in", "", "Name of the file to use as input.")
@@ -90,7 +91,8 @@ func main() {
 const n = 256 // scaling factor that I don't understand
 func isBackground(c color.Color) bool {
 	r, g, b, _ := c.RGBA()
-	return r > 127*n && g > 127*n && b > 127*n
+	v := uint32((*threshold) * n)
+	return r > v && g > v && b > v
 }
 
 func isTransparent(c color.Color) bool {
