@@ -1,7 +1,9 @@
 # TwoTone
 
-`twotone` is a command-line tool that will take a black/white PNG and generate a new one
-with a new background/foreground color.
+`twotone` is a command-line tool that will take a PNG and generate a flattened one
+with the given background and foreground colors.
+
+By default it will leave the transparent background.
 
 ## Installation
 
