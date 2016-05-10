@@ -19,6 +19,8 @@ export BROWN=2D232A
 twotone -bg=$TAN -fg=$BROWN -in=fixtures/test.png -out=fixtures/out.png
 ```
 
+![](https://raw.githubusercontent.com/kytrinyx/twotone/master/twotone.png)
+
 ## Known Issues
 
 **no smoothing of edges**
