@@ -23,6 +23,6 @@ twotone -bg=$TAN -fg=$BROWN -in=fixtures/test.png -out=fixtures/out.png
 
 ## Known Issues
 
-**no smoothing of edges**
+**no anti-aliasing**
 
-That probably has a name, but I'm not a graphics person. If I need it I'll probably spend a few minutes (OK, hours. Whatevs!) figuring out the fix for it. So far I've been lucky: when I resize it in Keynote.app, it smoothes the edges for me.
+If I need it I'll probably spend a few minutes (OK, hours. Whatevs!) figuring out the fix for it. So far I've been lucky: when I resize it in Keynote.app, it smoothes the edges for me.
